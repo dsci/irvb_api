@@ -1,0 +1,292 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Irvb api by dsci</title>
+    
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Irvb api</h1>
+        <p>A RESTful API webservice for bishl.de</p>
+        <p class="view"><a href="https://github.com/dsci/irvb_api">View the Project on GitHub <small>dsci/irvb_api</small></a></p>
+        <ul>
+          <li><a href="https://github.com/dsci/irvb_api/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/dsci/irvb_api/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/dsci/irvb_api">Fork On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h3>IRVB/BISHL API</h3>
+
+<p>This is a webservice to get content (schedule, game and standings informations) in a RESTful manner from <a href="http://www.bishl.de">bishl.de</a>, the webpage of all Inline-Skaterhockey leagues organised by <a href="http://www.rollsportverband.de/contenido/cms/front_content.php?idart=99&amp;idcat=81&amp;lang=1">Inline- und Rollsportverband Berlin Sportkommission Inline-Skaterhockey</a> . </p>
+
+<p>Currently supported by the API:</p>
+
+<ul>
+<li>schedule for season,league,year and team</li>
+<li>standings for season, league, year and team</li>
+<li>next game for a given team</li>
+<li>last game for a given team</li>
+</ul><p>The API was developed by Daniel Schmidt(<a href="/dsci" class="user-mention">@dsci</a>) and is hosted at <a href="http://www.heroku.com">Heroku</a>. </p>
+
+<p>The endpoint url is: </p>
+
+<pre><code><a href="http://bishl.heroku.com/v1/">http://bishl.heroku.com/v1/</a>
+</code></pre>
+
+<p>(Add all urls below to this endpoint url.)</p>
+
+<h2>Documentation</h2>
+
+<h3>Getting games</h3>
+
+<p>List games of a league for a specific team at a specific year:</p>
+
+<pre><code>GET /games/league/:league/team/:team/season/:year
+</code></pre>
+
+<p><strong>Example</strong></p>
+
+<pre><code>curl -i -H "Accept: application/json" <a href="http://bishl.heroku.com/v1/games/league/LLA/team/74/season/2012">http://bishl.heroku.com/v1/games/league/LLA/team/74/season/2012</a>
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<p><em>Status: 200 OK</em></p>
+
+<div class="highlight">
+<pre><span class="p">{</span><span class="nt">"games"</span><span class="p">:[</span>
+   <span class="p">{</span><span class="nt">"startdate"</span><span class="p">:</span><span class="s2">"2012-04-22T18:00:00-07:00"</span><span class="p">,</span>
+    <span class="nt">"hometeam"</span><span class="p">:</span><span class="s2">"Pleiszegeier Leipzig"</span><span class="p">,</span>
+    <span class="nt">"awayteam"</span><span class="p">:</span><span class="s2">"Powerkrauts Berlin"</span><span class="p">,</span>
+    <span class="nt">"gameid"</span><span class="p">:</span><span class="mi">1423</span><span class="p">,</span>
+    <span class="nt">"stadium"</span><span class="p">:</span><span class="s2">"Mehrzweckhalle Taucha"</span><span class="p">,</span>
+    <span class="nt">"goalshome"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span>
+    <span class="nt">"goalsaway"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span>
+    <span class="nt">"overtime"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+    <span class="nt">"shootout"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+    <span class="nt">"awayteamid"</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span>
+    <span class="nt">"hometeamid"</span><span class="p">:</span><span class="mi">74</span>
+   <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>(Note: Response output is abridged. "games" is an array of game definitions.) </p>
+
+<hr><p>List all games for a league at a specific year</p>
+
+<pre><code>GET '/games/league/:id/season/:year'
+</code></pre>
+
+<p><strong>Example</strong></p>
+
+<pre><code>curl -i -H "Accept: application/json" <a href="http://bishl.heroku.com/v1/games/league/LLA/season/2012">http://bishl.heroku.com/v1/games/league/LLA/season/2012</a>
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<p><em>Status: 200 OK</em></p>
+
+<div class="highlight">
+<pre><span class="p">{</span><span class="nt">"games"</span><span class="p">:</span>
+  <span class="p">[</span>
+   <span class="p">{</span><span class="nt">"startdate"</span><span class="p">:</span><span class="s2">"2012-04-14T14:00:00-07:00"</span><span class="p">,</span>
+    <span class="nt">"hometeam"</span><span class="p">:</span><span class="s2">"Spreewölfe Berlin II"</span><span class="p">,</span>
+    <span class="nt">"awayteam"</span><span class="p">:</span><span class="s2">"StraTus II"</span><span class="p">,</span>
+    <span class="nt">"gameid"</span><span class="p">:</span><span class="mi">1413</span><span class="p">,</span>
+    <span class="nt">"stadium"</span><span class="p">:</span><span class="s2">"Poststadion"</span><span class="p">,</span>
+    <span class="nt">"goalshome"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span>
+    <span class="nt">"goalsaway"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span>
+    <span class="nt">"overtime"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+    <span class="nt">"shootout"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+    <span class="nt">"awayteamid"</span><span class="p">:</span><span class="mi">9</span><span class="p">,</span>
+    <span class="nt">"hometeamid"</span><span class="p">:</span><span class="mi">105</span>
+   <span class="p">},</span>
+   <span class="p">{</span><span class="nt">"startdate"</span><span class="p">:</span><span class="s2">"2012-04-14T18:00:00-07:00"</span><span class="p">,</span>
+    <span class="nt">"hometeam"</span><span class="p">:</span><span class="s2">"Powerkrauts Berlin"</span><span class="p">,</span>
+    <span class="nt">"awayteam"</span><span class="p">:</span><span class="s2">"ECH Turtles"</span><span class="p">,</span>
+    <span class="nt">"gameid"</span><span class="p">:</span><span class="mi">1415</span><span class="p">,</span>
+    <span class="nt">"stadium"</span><span class="p">:</span><span class="s2">"Poststadion"</span><span class="p">,</span>
+    <span class="nt">"goalshome"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span>
+    <span class="nt">"goalsaway"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span>
+    <span class="nt">"overtime"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+    <span class="nt">"shootout"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+    <span class="nt">"awayteamid"</span><span class="p">:</span><span class="mi">116</span><span class="p">,</span>
+    <span class="nt">"hometeamid"</span><span class="p">:</span><span class="mi">4</span>
+  <span class="p">}</span>
+<span class="p">]}</span>
+</pre>
+</div>
+
+
+<p>(Note: Response output is abridged. "games" is an array of game definitions.) </p>
+
+<hr><p>List next game for a specific team</p>
+
+<pre><code>GET /games/team/:id/league/:league_id/next
+</code></pre>
+
+<p><strong>Example</strong></p>
+
+<pre><code>curl -i -H "Accept: application/json" <a href="http://bishl.heroku.com/v1/games/team/74/league/LLA/next">http://bishl.heroku.com/v1/games/team/74/league/LLA/next</a>
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<p><em>Status: 200 OK</em></p>
+
+<div class="highlight">
+<pre><span class="p">{</span><span class="nt">"games"</span><span class="p">:</span>
+  <span class="p">[</span>
+    <span class="p">{</span><span class="nt">"startdate"</span><span class="p">:</span><span class="s2">"2012-04-22T18:00:00-07:00"</span><span class="p">,</span>
+     <span class="nt">"hometeam"</span><span class="p">:</span><span class="s2">"Pleiszegeier Leipzig"</span><span class="p">,</span>
+     <span class="nt">"awayteam"</span><span class="p">:</span><span class="s2">"Powerkrauts Berlin"</span><span class="p">,</span>
+     <span class="nt">"gameid"</span><span class="p">:</span><span class="mi">1423</span><span class="p">,</span>
+     <span class="nt">"stadium"</span><span class="p">:</span><span class="s2">"Mehrzweckhalle Taucha"</span><span class="p">,</span>
+     <span class="nt">"goalshome"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span>
+     <span class="nt">"goalsaway"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span>
+     <span class="nt">"overtime"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+     <span class="nt">"shootout"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+     <span class="nt">"awayteamid"</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span>
+     <span class="nt">"hometeamid"</span><span class="p">:</span><span class="mi">74</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3>Standings</h3>
+
+<p>List standings for a specific league at a year:</p>
+
+<pre><code>GET /standings/league/:league_id/season/:year
+</code></pre>
+
+<p><strong>Example</strong></p>
+
+<pre><code>curl -i -H "Accept: application/json" <a href="http://bishl.heroku.com/v1/standings/league/LLA/season/2011">http://bishl.heroku.com/v1/standings/league/LLA/season/2011</a>
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<p><em>Status: 200 OK</em></p>
+
+<div class="highlight">
+<pre><span class="p">{</span><span class="nt">"standings"</span><span class="p">:</span>
+  <span class="p">[</span>
+   <span class="p">{</span><span class="nt">"position"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">"team"</span><span class="p">:</span>
+     <span class="p">{</span><span class="nt">"teamname"</span><span class="p">:</span><span class="s2">"Powerkrauts Berlin"</span><span class="p">,</span>
+      <span class="nt">"wins"</span><span class="p">:</span><span class="mi">19</span><span class="p">,</span>
+      <span class="nt">"losses"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
+      <span class="nt">"ties"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+      <span class="nt">"otwins"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span>
+      <span class="nt">"otlosses"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+      <span class="nt">"sowins"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+      <span class="nt">"points"</span><span class="p">:</span><span class="mi">61</span><span class="p">,</span>
+      <span class="nt">"goalsfor"</span><span class="p">:</span><span class="mi">244</span><span class="p">,</span>
+      <span class="nt">"goalsagainst"</span><span class="p">:</span><span class="mi">118</span><span class="p">,</span>
+      <span class="nt">"gamesplayed"</span><span class="p">:</span><span class="mi">22</span><span class="p">,</span>
+      <span class="nt">"solosses"</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span><span class="nt">"position"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="nt">"team"</span><span class="p">:</span>
+      <span class="p">{</span><span class="nt">"teamname"</span><span class="p">:</span><span class="s2">"Eissport- und Schlittschuh-Club"</span><span class="p">,</span>
+       <span class="nt">"wins"</span><span class="p">:</span><span class="mi">16</span><span class="p">,</span>
+       <span class="nt">"losses"</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span>
+       <span class="nt">"ties"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+       <span class="nt">"otwins"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+       <span class="nt">"otlosses"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+       <span class="nt">"sowins"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+       <span class="nt">"points"</span><span class="p">:</span><span class="mi">48</span><span class="p">,</span>
+       <span class="nt">"goalsfor"</span><span class="p">:</span><span class="mi">289</span><span class="p">,</span>
+       <span class="nt">"goalsagainst"</span><span class="p">:</span><span class="mi">123</span><span class="p">,</span>
+       <span class="nt">"gamesplayed"</span><span class="p">:</span><span class="mi">22</span><span class="p">,</span>
+       <span class="nt">"solosses"</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
+      <span class="p">}</span>
+   <span class="p">]</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>(Note: Response output is abridged.) </p>
+
+<hr><h3>Teams</h3>
+
+<p>Get the logo of a team:</p>
+
+<pre><code>GET /teams/logo/:id
+</code></pre>
+
+<p><strong>Example</strong></p>
+
+<pre><code>curl -i -H "Accept: application/json" <a href="http://bishl.heroku.com/v1/standings/league/LLA/season/2011">http://bishl.heroku.com/v1/standings/league/LLA/season/2011</a>
+</code></pre>
+
+<p><strong>Response</strong></p>
+
+<p><em>Status 200 OK</em></p>
+
+<div class="highlight">
+<pre><span class="p">{</span><span class="nt">"logo"</span><span class="p">:</span><span class="s2">"<a href="http://www.bishl.de/img/logo/club15.png">http://www.bishl.de/img/logo/club15.png</a>"</span><span class="p">}</span>
+</pre>
+</div>
+
+
+<h3>Examples</h3>
+
+<p>Get the standings of Landesliga A in 2011. This example uses <a href="http://nodejs.org/">Node.js</a> and <a href="http://coffeescript.org">CoffeeScript</a>.</p>
+
+<div class="highlight">
+<pre><span class="nv">http = </span><span class="nx">require</span> <span class="s">'http'</span>
+
+<span class="nv">options =</span>
+  <span class="nv">host: </span><span class="s">'bishl.heroku.com'</span>
+  <span class="nx">path</span><span class="o">:</span><span class="s">"/v1/standings/league/LLA/year/2011"</span>
+
+<span class="nx">http</span><span class="p">.</span><span class="nx">get</span> <span class="nx">options</span><span class="p">,</span> <span class="nf">(res) -&gt;</span>
+    <span class="nv">data = </span><span class="s">''</span>
+    <span class="nx">res</span><span class="p">.</span><span class="kc">on</span> <span class="s">'data'</span><span class="p">,</span> <span class="nf">(chunk) -&gt;</span>
+        <span class="nx">data</span> <span class="o">+=</span> <span class="nx">chunk</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span>
+    <span class="nx">res</span><span class="p">.</span><span class="kc">on</span> <span class="s">'end'</span><span class="p">,</span> <span class="nf">() -&gt;</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">data</span>
+        <span class="nv">jsonified = </span><span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+        <span class="c1"># do anything with data</span>
+</pre>
+</div>
+
+
+<h3>Authors and Contributors</h3>
+
+<p>As mentioned above:
+Written in 2012 Daniel Schmidt (<a href="/dsci" class="user-mention">@dsci</a>). </p>
+
+<p>It uses the <a href="https://github.com/dsci/bishl">BISHL gem</a> which was also written in 2011 by Daniel Schmidt (<a href="/dsci" class="user-mention">@dsci</a>).</p>
+
+<p>Original XML interface which is used by <a href="https://github.com/dsci/bishl">BISHL gem</a> and a part of <a href="http://www.bishl.de">bishl.de</a> was written by Marian Strüby (as far as I know). </p>
+
+<h3>Support or Contact</h3>
+
+<p>Having trouble with the API? Do not hesitate to open an issue at the <a href="https://github.com/dsci/irvb_api/issues">Issue Tracker</a>.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/dsci">dsci</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>
